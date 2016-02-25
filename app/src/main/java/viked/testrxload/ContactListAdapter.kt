@@ -1,50 +1,36 @@
 package viked.testrxload
 
-import android.app.Activity
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.TextView
 
-import java.util.ArrayList
+import kotlinx.android.synthetic.main.row.view.*
 
 
 /**
  * Created by 1 on 01.08.2015.
  */
-class ContactListAdapter(context: Activity, list: List<Data>) : ArrayAdapter<Data>(context, R.layout.row, list) {
+class ContactListAdapter(val list: MutableList<Data>) : RecyclerView.Adapter<ContactListAdapter.ViewHolder>() {
 
-    internal class ViewHolder(itemLayoutView: View) {
-        var contactNameView: TextView
-        var contactPhoneView: TextView
+    override fun getItemCount() = list.size
 
-        init {
-            contactNameView = itemLayoutView.findViewById(R.id.textView) as TextView
-            contactPhoneView = itemLayoutView.findViewById(R.id.textView2) as TextView
-        }
+    override fun onBindViewHolder(p0: ViewHolder, position: Int) {
+        p0.bindData(list[position])
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup?, p1: Int) =
+            ViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.row, parent, false))
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
-        var holder: ViewHolder? = null
-        if (convertView == null) {
-            val inflater = LayoutInflater.from(context)
-            convertView = inflater.inflate(R.layout.row, parent, false)
-            holder = ViewHolder(convertView)
-            convertView!!.tag = holder
-        } else {
-            holder = convertView.tag as ViewHolder
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        fun bindData(data: Data) {
+            with(data) {
+                itemView.textView.text = title
+                itemView.textView2.text = body
+            }
         }
-        configureViewHolder(holder, position)
-        return convertView
-    }
 
-
-    private fun configureViewHolder(viewHolder: ViewHolder, position: Int) {
-        val contact = getItem(position)
-        viewHolder.contactNameView.text = contact.title
-        viewHolder.contactPhoneView.text = contact.toString()
     }
 }

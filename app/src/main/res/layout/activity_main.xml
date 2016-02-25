@@ -10,7 +10,8 @@
     tools:context="viked.testrxload.MainActivity"
     android:orientation="vertical">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/listView"
