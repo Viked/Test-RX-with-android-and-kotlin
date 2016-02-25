@@ -22,10 +22,10 @@ class MainActivity : AppCompatActivity() {
         val adapter = ContactListAdapter(this, contactsList)
         listView.adapter = adapter
         val loader = Loader(contentResolver.query(ContactsContract.Data.CONTENT_URI,projection, null, null, null))
-        loader.startLoading(Action1 { list ->
-            contactsList = list
-            adapter.notifyDataSetChanged()})
-        loader.startProgress(Action1{i->progressBar.progress = i})
+        loader.startLoading(
+                Action1 { list -> contactsList = list
+                    adapter.notifyDataSetChanged()},
+                Action1{i->progressBar.progress = i})
         //loader.showProgressSubject().subscribe({i->progressBar.progress = i},{error -> print(error.message)})//, {progressBar.visibility = View.GONE})
     }
 

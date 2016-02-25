@@ -30,16 +30,12 @@ class Loader (val cursor: Cursor){
 
     val cursorSubject : PublishSubject<Cursor> = PublishSubject.create()
 
-    fun startLoading(s: Action1<List<Data>>){
+    fun startLoading(s: Action1<List<Data>>, p1 : Action1<Int>){
        cursorSubject.map { cursor ->
             Data(cursor.getString(0), cursor.getString(1))
         }.toList().subscribe(s)
-        cursorObservable.subscribe(cursorSubject)
-    }
-
-    fun startProgress(p1 : Action1<Int>){
         cursorSubject.map {cursor -> (((cursor.position).toDouble()/((cursor.count.toDouble())))*100).toInt() }
                 .subscribe(p1)
+        cursorObservable.subscribe(cursorSubject)
     }
-
 }
